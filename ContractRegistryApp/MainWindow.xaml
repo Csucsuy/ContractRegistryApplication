@@ -1,0 +1,69 @@
+﻿<Window x:Class="ContractRegistryApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ContractRegistryApp.ViewModels"
+        Title="Szerződésnyilvántartó" Height="500" Width="800" WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0" Margin="5">
+            <Label Content="Rögzített szerződések:" DockPanel.Dock="Top" FontWeight="Bold"/>
+            <ListBox ItemsSource="{Binding Contracts}" 
+                     SelectedItem="{Binding SelectedContract}"
+                     DisplayMemberPath="DisplayInfo"/>
+        </DockPanel>
+
+        <DockPanel Grid.Column="1" Margin="10">
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Módosítás" Width="150" Height="30" Margin="5" Command="{Binding ModifyCommand}"/>
+                    <Button Content="Törlés" Width="150" Height="30" Margin="5" Command="{Binding DeleteCommand}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Szerződés hozzáadása" Width="150" Height="30" Margin="5" Command="{Binding AddContractCommand}"/>
+                    <Button Content="Fájl megnyitása" Width="150" Height="30" Margin="5" Command="{Binding OpenFileCommand}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+                <StackPanel DataContext="{Binding SelectedContract}">
+                    <TextBlock Text="Részletek" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Név:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Name}" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Felek:" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Party1}"/>
+                        <TextBlock Text=" - "/>
+                        <TextBlock Text="{Binding Party2}"/>
+                    </StackPanel>
+                    <TextBlock Text="" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Időszak:" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding StartDate, StringFormat=yyyy.MM.dd}"/>
+                        <TextBlock Text=" - "/>
+                        <TextBlock Text="{Binding EndDate, StringFormat=yyyy.MM.dd}"/>
+                    </StackPanel>
+                    <TextBlock Text="" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Összeg:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Amount, StringFormat={}{0:N0} Ft}" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Dokumentum út:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding FilePath}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>
